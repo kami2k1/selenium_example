@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Kami")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c6e15905a1a9f6c129c24500aff424e206a0b75")]
 [assembly: System.Reflection.AssemblyProductAttribute("Kami")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Kami")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

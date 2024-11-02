@@ -22,3 +22,6 @@ C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\selenium-manager\
 C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\WebDriver.dll
 C:\Users\quang\source\repos\Kami\Kami\obj\Debug\net8.0-windows\Kami.csproj.AssemblyReference.cache
 C:\Users\quang\source\repos\Kami\Kami\obj\Debug\net8.0-windows\Kami.csproj.Up2Date
+C:\Users\quang\source\repos\Kami\Kami\obj\Debug\net8.0-windows\Kami.sourcelink.json
+C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\WebDriver.Support.dll
+C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\Selenium.WebDriverBackedSelenium.dll

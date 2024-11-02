@@ -18,13 +18,13 @@ namespace Kami.app
         public Form1 log;
         public IWebElement Even;
         public Random random = new Random();
-
+        public Proxy proxy;
         public int id;
         public IWebDriver driver; 
-        public Chrome(int id , int profile )
+        public Chrome(int id ,Form1 log, int profile )
         {
-            Form1 log = new Form1();
-            log.Show();
+            //Form1 log = new Form1();
+            ////log.Show();
             this.log = log;
             this.id = id;
             string file;
@@ -42,17 +42,23 @@ namespace Kami.app
 
             string userDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"AppData\Local\Google\Chrome\User Data");
 
-            // Khởi tạo ChromeOptions
             ChromeOptions options = new ChromeOptions();
-            //options.AddArgument("--no-sandbox");
-            //options.AddArgument("--disable-gpu");
-            options.AddArgument($"user-data-dir={userDataDir}"); 
-            options.AddArgument($"profile-directory={file}"); 
+            options.AddArgument("--silent");
+            options.AddArgument("--log-level=3");
+            options.AddArgument($"user-data-dir={userDataDir}");
+            options.AddArgument($"profile-directory={file}");
             options.AddArgument("--disable-blink-features=AutomationControlled");
             options.AddArgument("--remote-debugging-port=9222");
             options.AddExcludedArgument("enable-automation");
             options.AddExcludedArgument("enable-logging");
-            this.driver = new ChromeDriver(options);
+
+           
+            var chromeDriverService = ChromeDriverService.CreateDefaultService();
+            chromeDriverService.SuppressInitialDiagnosticInformation = true; 
+            chromeDriverService.LogPath = System.IO.Path.Combine(Environment.CurrentDirectory, "chromedriver.log");
+            chromeDriverService.HideCommandPromptWindow = true; 
+
+            this.driver = new ChromeDriver(chromeDriverService, options);
             IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
             jsExecutor.ExecuteScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
         }
@@ -265,7 +271,16 @@ namespace Kami.app
         }
         public void print(string text)
         {
-            log.log(text);
+            if (log.InvokeRequired)
+            {
+               
+                log.Invoke((MethodInvoker)(() => log.log(text)));
+            }
+            else
+            {
+              
+                log.log(text);
+            }
         }
         public  void killchrome()
         {

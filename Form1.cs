@@ -39,7 +39,7 @@ namespace Kami
         //{
         //    // Code cho xử lý sự kiện ở đây
         //}
-        private  void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             string txt = textBox1.Text;
             if (string.IsNullOrWhiteSpace(txt))
@@ -49,16 +49,16 @@ namespace Kami
             }
             else
             {
-                Chrome chrome = new Chrome(1, 0);
+                Chrome chrome = new Chrome(1,this, 3);
                 yt y = new yt(chrome);
 
                 try
                 {
-                    y.upshort();
+                    await Task.Run(async () => await y.upshort());
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}");
+                    log($"Đã xảy ra lỗi: {ex.Message}");
                 }
             }
         }
