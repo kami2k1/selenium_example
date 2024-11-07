@@ -37,7 +37,14 @@
             kami = new NotifyIcon(components);
             timer1 = new System.Windows.Forms.Timer(components);
             textBox2 = new TextBox();
-            label1 = new Label();
+            linkLabel1 = new LinkLabel();
+            textBox3 = new TextBox();
+            linkLabel2 = new LinkLabel();
+            textBox4 = new TextBox();
+            linkLabel3 = new LinkLabel();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
             SuspendLayout();
             // 
             // contextMenuStrip1
@@ -57,14 +64,13 @@
             // button1
             // 
             button1.BackColor = Color.Transparent;
-            button1.Location = new Point(466, 142);
+            button1.Location = new Point(290, 192);
             button1.Name = "button1";
             button1.Size = new Size(88, 23);
             button1.TabIndex = 2;
-            button1.Text = "bấm vào em ";
+            button1.Text = "Sart ";
             button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-
+            button1.Click += button1_Click;
             // 
             // toolTip1
             // 
@@ -90,15 +96,89 @@
             textBox2.TabIndex = 3;
             textBox2.TextChanged += textBox2_TextChanged;
             // 
-            // label1
+            // linkLabel1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(328, 44);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 4;
-            label1.Text = "label1";
-            label1.Click += label1_Click_2;
+            linkLabel1.AutoSize = true;
+            linkLabel1.BackColor = SystemColors.ActiveBorder;
+            linkLabel1.LinkColor = Color.White;
+            linkLabel1.Location = new Point(208, 150);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(54, 15);
+            linkLabel1.TabIndex = 4;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "PRO FILe";
+            // 
+            // textBox3
+            // 
+            textBox3.BackColor = SystemColors.Window;
+            textBox3.Location = new Point(274, 102);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(121, 23);
+            textBox3.TabIndex = 5;
+            textBox3.TextChanged += textBox3_TextChanged;
+            // 
+            // linkLabel2
+            // 
+            linkLabel2.AutoSize = true;
+            linkLabel2.BackColor = SystemColors.ActiveBorder;
+            linkLabel2.LinkColor = Color.White;
+            linkLabel2.Location = new Point(208, 110);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(43, 15);
+            linkLabel2.TabIndex = 6;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "Endfile";
+            // 
+            // textBox4
+            // 
+            textBox4.BackColor = SystemColors.Window;
+            textBox4.Location = new Point(274, 53);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(121, 23);
+            textBox4.TabIndex = 7;
+            textBox4.TextChanged += textBox4_TextChanged;
+            // 
+            // linkLabel3
+            // 
+            linkLabel3.AutoSize = true;
+            linkLabel3.BackColor = SystemColors.ActiveBorder;
+            linkLabel3.LinkColor = Color.White;
+            linkLabel3.Location = new Point(208, 53);
+            linkLabel3.Name = "linkLabel3";
+            linkLabel3.Size = new Size(43, 15);
+            linkLabel3.TabIndex = 8;
+            linkLabel3.TabStop = true;
+            linkLabel3.Text = "Sartfile";
+            // 
+            // button2
+            // 
+            button2.Location = new Point(581, 53);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 9;
+            button2.Text = "SetProfile FB";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(581, 110);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 10;
+            button3.Text = "RunFb";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(581, 163);
+            button4.Name = "button4";
+            button4.Size = new Size(75, 23);
+            button4.TabIndex = 11;
+            button4.Text = "run id ";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // Form1
             // 
@@ -107,10 +187,17 @@
             BackColor = SystemColors.WindowText;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(798, 522);
+            Controls.Add(button4);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(linkLabel3);
+            Controls.Add(textBox4);
+            Controls.Add(linkLabel2);
+            Controls.Add(textBox3);
+            Controls.Add(linkLabel1);
             Controls.Add(textBox2);
             Controls.Add(button1);
             Controls.Add(textBox1);
-            Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "Kami APP";
@@ -126,7 +213,14 @@
         private ToolTip toolTip1;
         private NotifyIcon kami;
         private System.Windows.Forms.Timer timer1;
-        private Label label1;
         public TextBox textBox2;
+        private LinkLabel linkLabel1;
+        private TextBox textBox3;
+        private LinkLabel linkLabel2;
+        private TextBox textBox4;
+        private LinkLabel linkLabel3;
+        private Button button2;
+        private Button button3;
+        private Button button4;
     }
 }

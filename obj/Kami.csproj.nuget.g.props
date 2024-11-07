@@ -13,4 +13,7 @@
     <SourceRoot Include="C:\Users\quang\.nuget\packages\" />
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgWebDriverIEDriver Condition=" '$(PkgWebDriverIEDriver)' == '' ">C:\Users\quang\.nuget\packages\webdriveriedriver\2.45.0</PkgWebDriverIEDriver>
+  </PropertyGroup>
 </Project>

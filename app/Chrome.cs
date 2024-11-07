@@ -7,13 +7,19 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Web;
 
 
 namespace Kami.app
 {
     public class Chrome
+
     {
+        public static List<Chrome> Chromes = new List<Chrome>();
+        public static int ids = 0;
         public static bool  chromeruing;
         public Form1 log;
         public IWebElement Even;
@@ -21,46 +27,141 @@ namespace Kami.app
         public Proxy proxy;
         public int id;
         public IWebDriver driver; 
-        public Chrome(int id ,Form1 log, int profile )
+        public Chrome(Form1 log, int profile, proxy _proxy = null, string pathprofile = null )
         {
-            //Form1 log = new Form1();
-            ////log.Show();
-            this.log = log;
-            this.id = id;
-            string file;
-            if (profile == 0)
+            try
             {
-                file = "Default";
-            } else {
-                file = $"Profile {profile}";
-            }
+                Chrome.ids++;
 
-            if (!Chrome.chromeruing)
+                //Form1 log = new Form1();
+                ////log.Show();
+                this.log = log;
+                this.id = Chrome.ids;
+                string file;
+                if (profile == 0)
+                {
+                    file = "Default";
+                }
+                else
+                {
+                    file = $"Profile {profile}";
+                }
+
+                if (!Chrome.chromeruing)
+                {
+                    this.killchrome();
+
+                }
+                string userDataDir = pathprofile;
+                if (pathprofile == null)
+                {
+
+                    userDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"AppData\Local\Google\Chrome\User Data");
+                }
+
+                print(userDataDir + file);
+                ChromeOptions options = new ChromeOptions();
+                options.AddArgument("--silent");
+                options.AddArgument("--log-level=3");
+                options.AddArgument($"user-data-dir={userDataDir}");
+                options.AddArgument($"profile-directory={file}");
+                options.AddArgument("--disable-blink-features=AutomationControlled");
+                int port = 9222 + profile; // tạo cổng dựa trên id của profile hoặc một số duy nhất khác
+                options.AddArgument($"--remote-debugging-port={port}");
+
+                options.AddExcludedArgument("enable-automation");
+                options.AddExcludedArgument("enable-logging");
+                if (_proxy != null)
+                {
+                    if (_proxy.type == "soc")
+                    {
+                        print("proxy đạng socks");
+                        string socks5Proxy;
+                        if (_proxy.Usename == null && _proxy.password == null)
+                        {
+                            socks5Proxy = $"socks5://{_proxy.ip}:{_proxy.port}";
+                            options.AddArgument("--proxy-server=" + socks5Proxy);
+
+
+
+                        }
+                        else
+                        {
+
+
+
+
+
+
+
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        options.AddArgument($"--proxy-server={_proxy.ip}:{_proxy.port}");
+
+                        if (!string.IsNullOrEmpty(_proxy.Usename) && !string.IsNullOrEmpty(_proxy.password))
+                        {
+                            try
+                            {
+                                string proxyex = _proxy.extensonproxy(this);
+
+                                options.AddExtension(proxyex);
+                            }
+                            catch (Exception e)
+                            {
+                                print($"lỗi tại hàm {e}");
+                            }
+                        }
+                    }
+
+                }
+
+
+                try
+                {
+                    if (Chrome.chromeDriverService == null)
+                    {
+                        Chrome.CreaterChromedriver();
+                    }
+                    this.driver = new ChromeDriver(Chrome.chromeDriverService, options);
+                    IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
+                    jsExecutor.ExecuteScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
+                    Chrome.Chromes.Add(this);
+                }
+                catch (Exception ex)
+                {
+                    print("Lỗi Chi Tiết tại " );
+                }
+                print($"khởi tạo thành công rồi Chrome id {this.id}");
+            }catch(Exception ex)
             {
-                this.killchrome();
+                print($"lỗ tại {ex}");
             }
+        }
+        public  static  ChromeDriverService chromeDriverService;
+        public  static void CreaterChromedriver()
+        {
+            try
+            {
 
-            string userDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"AppData\Local\Google\Chrome\User Data");
+                if (chromeDriverService == null)
+                {
+                   chromeDriverService = ChromeDriverService.CreateDefaultService();
+                    chromeDriverService.SuppressInitialDiagnosticInformation = true;
+                    chromeDriverService.LogPath = System.IO.Path.Combine(Environment.CurrentDirectory, "chromedriver.log");
+                    chromeDriverService.HideCommandPromptWindow = true;
 
-            ChromeOptions options = new ChromeOptions();
-            options.AddArgument("--silent");
-            options.AddArgument("--log-level=3");
-            options.AddArgument($"user-data-dir={userDataDir}");
-            options.AddArgument($"profile-directory={file}");
-            options.AddArgument("--disable-blink-features=AutomationControlled");
-            options.AddArgument("--remote-debugging-port=9222");
-            options.AddExcludedArgument("enable-automation");
-            options.AddExcludedArgument("enable-logging");
+                }
 
-           
-            var chromeDriverService = ChromeDriverService.CreateDefaultService();
-            chromeDriverService.SuppressInitialDiagnosticInformation = true; 
-            chromeDriverService.LogPath = System.IO.Path.Combine(Environment.CurrentDirectory, "chromedriver.log");
-            chromeDriverService.HideCommandPromptWindow = true; 
-
-            this.driver = new ChromeDriver(chromeDriverService, options);
-            IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
-            jsExecutor.ExecuteScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
+            }
+            catch (Exception ex)
+            {
+               
+            }
         }
         public void getwed(string link)
         {
@@ -103,6 +204,7 @@ namespace Kami.app
                 if (this.Even == null)
                 {
                     print("lỗi khồn có phần tử");
+                    return;
                 }
                 this.Even.Click();
                 print("đã nhấp vào phần tử ");
@@ -156,37 +258,31 @@ namespace Kami.app
         public void Scroll_Even() // cuộn chuột điến phần tử 
         {
             if (this.Even == null) return;
-            Actions actions = new Actions(this.driver);
-            actions.MoveToElement(this.Even).Perform();
-
+            //try
+            //{
+                //Actions actions = new Actions(this.driver);
+                //actions.MoveToElement(this.Even).Perform();
+                string js_code = "arguments[0].scrollIntoView();";
+                IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
+                jsExecutor.ExecuteScript(js_code, this.Even);
+            //}catch ( Exception ex)
+            //{
+            //    print($" Lỗi tại Hàm Cuộn điến Phần Tử Chi tiết Lỗi {ex}");
+            //}
         }
-        public void Scronll(int y , int x=  0) // cuộn theo px niếu y > 0 thì cuộn xuống niếu y < 0 thì cuộn lên
+
+        public void Scronll(int y = 250, int x=  0) // cuộn theo px niếu y > 0 thì cuộn xuống niếu y < 0 thì cuộn lên
         {
-            int viewportHeight = (int)((IJavaScriptExecutor)driver).ExecuteScript("return window.innerHeight");
-            int viewportWidth = (int)((IJavaScriptExecutor)driver).ExecuteScript("return window.innerWidth");
-            int middleX = viewportWidth / 2;
-            int middleY = viewportHeight / 2;
-
-            Actions actions = new Actions(this.driver);
-            int steps = 20;
-            int stepY = y / steps;
-            int stepX = x / steps;
-
-            for (int i = 0; i < steps; i++)
-            {
-                actions.MoveByOffset(middleX, middleY) // Di chuyển đến giữa màn hình
-                       .ScrollByAmount(stepX, stepY) // Cuộn
-                       .Perform();
-
-                int dilay = 200 + random.Next(i, 100 + i);
-                Thread.Sleep(dilay);
-            }
+            string js_code = $"window.scrollBy({x},{y})";
+            IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
+            jsExecutor.ExecuteScript(js_code);
+                            
         }
         public void find_Xpath(string xpath)
         {
             this.find(9, xpath);
         }
-        private void find(int id, string text)
+        public void find(int id, string text)
         {
             clear();
             try
@@ -244,9 +340,11 @@ namespace Kami.app
                 print("Đã tìm thấy phần tử");
             }
         }
-        public void input_dilay(string data ,int clean = 0 , int  dilay = 1)
+        public bool input_dilay(string data ,int clean = 0 , int  dilay = 1)
         {
-            if (clean == 0)  this.Even.Clear(); 
+            if (this.Even == null) return false;
+            if (clean == 0) 
+            this.Even.Clear(); 
             
             for (int i = 0; i < data.Length; i++)
             {
@@ -259,7 +357,7 @@ namespace Kami.app
 
 
             }
-
+            return true;
 
         }
         public void clear()
@@ -302,6 +400,43 @@ namespace Kami.app
             }
             Chrome.chromeruing = true;
         }
+        public static void KillChrome(int chromeId = -1, Chrome chromeInstance = null)
+        {
+            if (chromeInstance != null)
+            {
+               
+                chromeInstance.driver.Quit();
+                chromeInstance = null;
+            }
+            else if (chromeId >= 0)
+            {
+               
+                for (int i = Chrome.Chromes.Count - 1; i >= 0; i--)
+                {
+                    var ch = Chrome.Chromes[i];
+                    if (ch.id == chromeId)
+                    {
+                        ch.driver.Quit();
+
+                        Chrome.Chromes.RemoveAt(i);
+                        ch = null;
+                        break; 
+                    }
+                }
+            }
+            else
+            {
+                
+                for (int i = Chrome.Chromes.Count - 1; i >= 0; i--)
+                {
+                    var ch = Chrome.Chromes[i];
+                    ch.driver.Quit();
+                    Chrome.Chromes.RemoveAt(i);
+                    ch = null;
+                }
+            }
+        }
+
     }
-    
+
 }

@@ -25,3 +25,9 @@ C:\Users\quang\source\repos\Kami\Kami\obj\Debug\net8.0-windows\Kami.csproj.Up2Da
 C:\Users\quang\source\repos\Kami\Kami\obj\Debug\net8.0-windows\Kami.sourcelink.json
 C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\WebDriver.Support.dll
 C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\Selenium.WebDriverBackedSelenium.dll
+C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\Knapcode.TorSharp.dll
+C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\ProxySharp.Tcp.dll
+C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\SocksSharp.dll
+C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\SharpCompress.dll
+C:\Users\quang\source\repos\Kami\Kami\bin\Debug\net8.0-windows\System.ServiceModel.Syndication.dll
+C:\Users\quang\source\repos\Kami\Kami\obj\Debug\net8.0-windows\Kami.Form3.resources
